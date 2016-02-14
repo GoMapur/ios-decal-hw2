@@ -44,9 +44,32 @@ class KeyboardViewController: UIInputViewController {
         keyboardView.frame = view.frame
         view.addSubview(keyboardView)
         view.backgroundColor = keyboardView.backgroundColor
-        nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside) // advanceToNextInputMode is already defined in template
-        
+        nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
     }
-
+    
+    @IBAction
+    func keyTouched(sender: UIButton?) {
+        print("\(sender)")
+        let proxy = textDocumentProxy as UITextDocumentProxy
+        let title = sender!.titleForState(.Normal)
+            if (title != "Delete" &&  title != "Space" && title != "Return") {
+                    proxy.insertText(title!)
+                }
+            else {
+                switch title!{
+                    case "Delete":
+                        proxy.deleteBackward()
+                        break
+                    case "Return":
+                        proxy.insertText("\n")
+                        break
+                    case "Space":
+                        proxy.insertText(" ")
+                        break
+                    default:
+                        break
+                }
+        }
+    }
 
 }
